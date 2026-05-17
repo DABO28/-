@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SYNK — チームの仕事を、一つに</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f4f0;
+  --surface: #ffffff;
+  --dark: #0f0f0f;
+  --accent: #0052ff;
+  --accent2: #00d4aa;
+  --border: #e4e2dd;
+  --text: #1a1a1a;
+  --muted: #8a8880;
+  --code-bg: #1a1a2e;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', 'Noto Sans JP', sans-serif;
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(245,244,240,0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 48px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: 'DM Mono', monospace;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--dark);
+  letter-spacing: -1px;
+}
+.nav-logo span { color: var(--accent); }
+
+.nav-center {
+  display: flex;
+  gap: 4px;
+}
+.nav-center a {
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.nav-center a:hover { color: var(--text); background: var(--border); }
+
+.nav-right { display: flex; gap: 10px; align-items: center; }
+
+.btn-sm {
+  padding: 8px 18px;
+  font-size: 13px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.btn-outline {
+  border: 1px solid var(--border);
+  color: var(--text);
+  background: transparent;
+}
+.btn-outline:hover { background: var(--border); }
+.btn-fill {
+  background: var(--dark);
+  color: #fff;
+  border: 1px solid var(--dark);
+}
+.btn-fill:hover { background: #333; }
+
+/* HERO */
+.hero {
+  padding: 140px 48px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 14px 6px 8px;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 32px;
+  animation: fadeDown 0.6s ease both;
+}
+.hero-tag .dot {
+  width: 8px; height: 8px;
+  background: var(--accent2);
+  border-radius: 50%;
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.hero h1 {
+  font-size: clamp(36px, 6vw, 80px); /* スマホ用に最小サイズを36pxに微調整 */
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -2px;
+  margin-bottom: 24px;
+  animation: fadeDown 0.6s ease 0.1s both;
+}
+
+.hero h1 .highlight {
+  position: relative;
+  display: inline-block;
+}
+.hero h1 .highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 4px; left: 0; right: 0;
+  height: 6px;
+  background: var(--accent);
+  opacity: 0.2;
+  border-radius: 2px;
+}
+
+.hero-sub {
+  font-size: 18px;
+  color: var(--muted);
+  max-width: 500px;
+  line-height: 1.7;
+  font-weight: 300;
+  margin-bottom: 48px;
+  animation: fadeDown 0.6s ease 0.2s both;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 80px;
+  animation: fadeDown 0.6s ease 0.3s both;
+}
+
+.btn-primary-lg {
+  padding: 14px 32px;
+  background: var(--dark);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+.btn-primary-lg:hover { background: #333; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+
+.btn-secondary-lg {
+  padding: 14px 32px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.btn-secondary-lg:hover { background: var(--border); }
+
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  animation: fadeDown 0.6s ease 0.4s both;
+}
+.stat-item .stat-num {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--dark);
+}
+.stat-item .stat-label {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* DASHBOARD PREVIEW */
+.dashboard-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px 100px;
+  animation: fadeDown 0.8s ease 0.5s both;
+}
+
+.dashboard {
+  background: var(--dark);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.dashboard-bar {
+  background: #1a1a1a;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.db-dot { width: 12px; height: 12px; border-radius: 50%; }
+.db-dot.red { background: #ff5f57; }
+.db-dot.yellow { background: #febc2e; }
+.db-dot.green { background: #28c840; }
+
+.db-url {
+  margin-left: 12px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 6px;
+  padding: 4px 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+}
+
+.dashboard-content {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 400px;
+}
+
+.db-sidebar {
+  background: #141414;
+  padding: 24px 16px;
+  border-right: 1px solid rgba(255,255,255,0.05);
+}
+
+.db-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.55); /* 視認性向上のため0.35から引き上げ */
+  margin-bottom: 2px;
+  cursor: default;
+}
+.db-nav-item.active {
+  background: rgba(0,82,255,0.15);
+  color: rgba(255,255,255,0.9);
+}
+.db-nav-item .db-icon { font-size: 15px; }
+
+.db-main {
+  padding: 28px;
+}
+
+.db-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 12px;
+}
+.db-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+}
+.db-badge {
+  background: rgba(0,212,170,0.15);
+  border: 1px solid rgba(0,212,170,0.3);
+  color: var(--accent2);
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.db-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.db-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 16px;
+}
+.db-card .dc-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5); /* 視認性向上のため0.3から引き上げ */
+  margin-bottom: 8px;
+}
+.db-card .dc-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 22px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+}
+.db-card .dc-change {
+  font-size: 11px;
+  color: var(--accent2);
+  margin-top: 4px;
+}
+
+.db-tasks {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.db-task {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 13px;
+  color: rgba(255,255,255,0.65); /* 視認性向上のため0.5から引き上げ */
+}
+.db-task:last-child { border-bottom: none; }
+
+.db-task .task-check {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px;
+}
+.task-check.done {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.db-task .task-tag {
+  margin-left: auto;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.tag-blue { background: rgba(0,82,255,0.15); color: rgba(130,170,255,0.9); }
+.tag-green { background: rgba(0,212,170,0.15); color: rgba(0,212,170,0.9); }
+.tag-orange { background: rgba(255,140,0,0.15); color: rgba(255,190,100,0.9); }
+
+/* LOGOS */
+.logos {
+  padding: 60px 48px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+.logos p {
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+.logo-row {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.logo-item {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #c0bdb8;
+  letter-spacing: -0.5px;
+}
+
+/* FEATURES */
+.features {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 48px;
+}
+
+.features-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 80px;
+}
+
+.feat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.feat-title {
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 700;
+  letter-spacing: -2px;
+  line-height: 1.1;
+}
+
+.feat-desc {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.8;
+  font-weight: 300;
+  margin-top: auto;
+  align-self: end;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: var(--border); /* グリッドの隙間をボーダー線として見せる */
+  border: 1px solid var(--border);
+}
+
+.feature-card {
+  background: var(--surface);
+  padding: 40px 32px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.feature-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+.feature-card:hover::before { transform: scaleX(1); }
+.feature-card:hover { background: #fafaf8; }
+
+.feat-card-icon {
+  width: 44px; height: 44px;
+  background: rgba(0,82,255,0.08);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.feat-card-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: -0.3px;
+}
+.feat-card-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+/* PRICING */
+.pricing {
+  background: var(--dark);
+  padding: 100px 48px;
+}
+
+.pricing-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.pricing-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.pricing-header h2 {
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -2px;
+  margin-bottom: 12px;
+}
+.pricing-header p {
+  font-size: 16px;
+  color: rgba(255,255,255,0.5); /* 視認性向上のため0.4から引き上げ */
+  font-weight: 300;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.price-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 36px 28px;
+  position: relative;
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+.price-card:hover { transform: translateY(-4px); }
+
+.price-card.featured {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.price-card .pc-label {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.5); /* 視認性向上のため0.4から引き上げ */
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.price-card.featured .pc-label { color: rgba(255,255,255,0.85); }
+
+.price-card .pc-price {
+  font-size: 44px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.price-card .pc-period {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5); /* 視認性向上のため0.35から引き上げ */
+  margin-bottom: 28px;
+}
+
+.price-card .pc-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 32px;
+  margin-top: 0;
+}
+.price-card .pc-features li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.75); /* 視認性向上のため0.55から引き上げ */
+}
+.pc-features li::before {
+  content: '✓';
+  color: var(--accent2);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.price-card.featured .pc-features li { color: rgba(255,255,255,0.95); }
+.price-card.featured .pc-features li::before { color: #fff; }
+
+.pc-btn {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+  margin-top: auto; /* ボタンを常にカード最下部に固定 */
+}
+.pc-btn-outline {
+  border: 1px solid rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.85);
+}
+.pc-btn-outline:hover { background: rgba(255,255,255,0.05); }
+.pc-btn-filled {
+  background: var(--dark);
+  color: #fff;
+}
+.pc-btn-filled:hover { background: #1a1a1a; }
+
+/* CTA BAND */
+.cta-band {
+  background: var(--accent);
+  padding: 80px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.cta-band h2 {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -2px;
+  line-height: 1.1;
+}
+
+.cta-band .btn-white {
+  padding: 16px 40px;
+  background: #fff;
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 10px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.cta-band .btn-white:hover { transform: scale(1.02); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+
+/* FOOTER */
+footer {
+  background: var(--dark);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 60px 48px 40px;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.footer-brand .fb-logo {
+  font-family: 'DM Mono', monospace;
+  font-size: 20px;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.footer-brand .fb-logo span { color: var(--accent); }
+.footer-brand p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.7;
+  font-weight: 300;
+  max-width: 240px;
+}
+
+.footer-col h4 {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.footer-col ul a {
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-col ul a:hover { color: rgba(255,255,255,0.8); }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+/* ANIMATIONS */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================
+   RESPONSIVE MEDIA QUERIES (追加分)
+   ========================================== */
+
+/* タブレットサイズ環境 */
+@media (max-width: 1024px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* スマートフォンサイズ環境 */
+@media (max-width: 768px) {
+  nav {
+    padding: 0 20px;
+    height: auto;
+    min-height: 64px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    padding: 14px 20px;
+  }
+  .nav-center {
+    display: none; /* スマホ表示時は中央のリンク群を非表示に */
+  }
+  .nav-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .nav-right .btn-sm {
+    flex: 1;
+    text-align: center;
+  }
+
+  .hero {
+    padding: 160px 20px 60px;
+  }
+  .hero-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .hero-actions a {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+  .hero-stats {
+    grid-template-columns: repeat(2, 1fr);
+    display: grid;
+    gap: 24px;
+  }
+
+  .dashboard-wrap {
+    padding: 0 20px 60px;
+  }
+  .dashboard-content {
+    grid-template-columns: 1fr;
+  }
+  .db-sidebar {
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+    padding: 12px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .db-sidebar::-webkit-scrollbar {
+    display: none; /* スクロールバーを隠してクリーンに */
+  }
+  .db-nav-item {
+    margin-bottom: 0;
+    white-space: nowrap;
+    padding: 6px 12px;
+  }
+  .db-main {
+    padding: 20px 16px;
+  }
+  .db-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .logos {
+    padding: 40px 20px;
+  }
+  .logo-row {
+    gap: 32px;
+  }
+
+  .features {
+    padding: 60px 20px;
+  }
+  .features-header {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  .feature-card {
+    padding: 32px 24px;
+  }
+
+  .pricing {
+    padding: 60px 20px;
+  }
+  .pricing-header {
+    margin-bottom: 40px;
+  }
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .price-card {
+    padding: 32px 24px;
+  }
+
+  .cta-band {
+    padding: 60px 20px;
+    flex-direction: column;
+    text-align: center;
+    gap: 28px;
+  }
+  .cta-band h2 {
+    text-align: center;
+  }
+  .cta-band .btn-white {
+    width: 100%;
+    text-align: center;
+  }
+
+  footer {
+    padding: 48px 20px 30px;
+  }
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    margin-bottom: 40px;
+  }
+  .footer-brand p {
+    max-width: 100%;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">SY<span>N</span>K</div>
+  <div class="nav-center">
+    <a href="#features">機能</a>
+    <a href="#pricing">料金</a>
+    <a href="#">事例</a>
+    <a href="#">ドキュメント</a>
+  </div>
+  <div class="nav-right">
+    <a href="#" class="btn-sm btn-outline">ログイン</a>
+    <a href="#" class="btn-sm btn-fill">無料で始める</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">
+    <span class="dot"></span>
+    新機能リリース：AIタスク自動割り振り
+  </div>
+  <h1>チームの仕事を、<br><span class="highlight">一つに。</span></h1>
+  <p class="hero-sub">タスク・コミュニケーション・ドキュメントをSYNKが一元管理。チームの生産性を平均42%向上させます。</p>
+  <div class="hero-actions">
+    <a href="#" class="btn-primary-lg">無料で始める →</a>
+    <a href="#" class="btn-secondary-lg">デモを見る</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">12,000+</div>
+      <div class="stat-label">導入チーム数</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">42%</div>
+      <div class="stat-label">生産性向上</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">4.9★</div>
+      <div class="stat-label">App Store評価</div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<div class="dashboard-wrap">
+  <div class="dashboard">
+    <div class="dashboard-bar">
+      <div class="db-dot red"></div>
+      <div class="db-dot yellow"></div>
+      <div class="db-dot green"></div>
+      <div class="db-url">app.synk.io/dashboard</div>
+    </div>
+    <div class="dashboard-content">
+      <div class="db-sidebar">
+        <div class="db-nav-item active"><span class="db-icon">⚡</span> ダッシュボード</div>
+        <div class="db-nav-item"><span class="db-icon">✅</span> タスク</div>
+        <div class="db-nav-item"><span class="db-icon">💬</span> チャット</div>
+        <div class="db-nav-item"><span class="db-icon">📄</span> ドキュメント</div>
+        <div class="db-nav-item"><span class="db-icon">📊</span> レポート</div>
+        <div class="db-nav-item"><span class="db-icon">⚙️</span> 設定</div>
+      </div>
+      <div class="db-main">
+        <div class="db-header">
+          <div class="db-title">今週のサマリー</div>
+          <div class="db-badge">✓ 全員オンライン</div>
+        </div>
+        <div class="db-cards">
+          <div class="db-card">
+            <div class="dc-label">完了タスク</div>
+            <div class="dc-num">48</div>
+            <div class="dc-change">↑ 12% 先週比</div>
+          </div>
+          <div class="db-card">
+            <div class="dc-label">進行中</div>
+            <div class="dc-num">23</div>
+            <div class="dc-change">→ 予定通り</div>
+          </div>
+          <div class="db-card">
+            <div class="dc-label">チームメンバー</div>
+            <div class="dc-num">8</div>
+            <div class="dc-change">+ 2名 今月</div>
+          </div>
+        </div>
+        <div class="db-tasks">
+          <div class="db-task">
+            <div class="task-check done">✓</div>
+            Q3レポートのデザイン確認
+            <span class="task-tag tag-blue">デザイン</span>
+          </div>
+          <div class="db-task">
+            <div class="task-check done">✓</div>
+            APIドキュメント更新
+            <span class="task-tag tag-green">開発</span>
+          </div>
+          <div class="db-task">
+            <div class="task-check"></div>
+            クライアントへの提案書送付
+            <span class="task-tag tag-orange">営業</span>
+          </div>
+          <div class="db-task">
+            <div class="task-check"></div>
+            週次ミーティングのアジェンダ作成
+            <span class="task-tag tag-blue">全体</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOGOS -->
+<div class="logos">
+  <p>導入企業</p>
+  <div class="logo-row">
+    <div class="logo-item">Acme Corp</div>
+    <div class="logo-item">TechFlow</div>
+    <div class="logo-item">Nexus Inc</div>
+    <div class="logo-item">Orbit Labs</div>
+    <div class="logo-item">Penta</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="features-header">
+    <div>
+      <p class="feat-label">Why SYNK</p>
+      <h2 class="feat-title">バラバラな<br>ツールを、<br>一つに。</h2>
+    </div>
+    <div style="display:flex;align-items:flex-end;">
+      <p class="feat-desc">Slack、Notion、Asana、Jira——複数のツールを行き来する時間はもう終わり。SYNKはすべてを一つのワークスペースに統合します。</p>
+    </div>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feat-card-icon">⚡</div>
+      <div class="feat-card-title">AIタスク管理</div>
+      <div class="feat-card-desc">AIがチャットの会話を解析し、タスクを自動生成・割り振り。「誰が何をするか」を考える時間をゼロにします。</div>
+    </div>
+    <div class="feature-card">
+      <div class="feat-card-icon">💬</div>
+      <div class="feat-card-title">統合コミュニケーション</div>
+      <div class="feat-card-desc">チャット・メール・ビデオ通話を一つのインターフェースに。コンテキストを失わずに会話できます。</div>
+    </div>
+    <div class="feature-card">
+      <div class="feat-card-icon">📄</div>
+      <div class="feat-card-title">リアルタイム共同編集</div>
+      <div class="feat-card-desc">Googleドキュメントのように、複数人が同時に編集可能。変更履歴も自動保存されます。</div>
+    </div>
+    <div class="feature-card">
+      <div class="feat-card-icon">📊</div>
+      <div class="feat-card-title">自動レポート生成</div>
+      <div class="feat-card-desc">週次・月次レポートをAIが自動生成。マネージャーは数字を追うだけ。意思決定が速くなります。</div>
+    </div>
+    <div class="feature-card">
+      <div class="feat-card-icon">🔗</div>
+      <div class="feat-card-title">200+アプリ連携</div>
+      <div class="feat-card-desc">Salesforce、HubSpot、GitHubなど200以上のサービスと連携。今使っているツールをそのまま活かせます。</div>
+    </div>
+    <div class="feature-card">
+      <div class="feat-card-icon">🔒</div>
+      <div class="feat-card-title">エンタープライズセキュリティ</div>
+      <div class="feat-card-desc">SOC2 Type II認定取得済み。SSO・2段階認証・権限管理で、大企業の厳しいセキュリティ要件にも対応。</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-header">
+      <h2>シンプルな料金体系</h2>
+      <p>全プラン14日間無料トライアル付き。クレジットカード不要。</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="pc-label">Starter</div>
+        <div class="pc-price">¥0</div>
+        <div class="pc-period">最大5名まで無料</div>
+        <ul class="pc-features">
+          <li>タスク管理（無制限）</li>
+          <li>チャット機能</li>
+          <li>5GBストレージ</li>
+          <li>基本アプリ連携 10個</li>
+        </ul>
+        <a href="#" class="pc-btn pc-btn-outline">無料で始める</a>
+      </div>
+      <div class="price-card featured">
+        <div class="pc-label">Pro — 人気No.1</div>
+        <div class="pc-price">¥1,800</div>
+        <div class="pc-period">/人/月（年払い）</div>
+        <ul class="pc-features">
+          <li>Starterの全機能</li>
+          <li>AIタスク自動割り振り</li>
+          <li>自動レポート生成</li>
+          <li>100GBストレージ</li>
+          <li>連携アプリ 無制限</li>
+          <li>優先サポート</li>
+        </ul>
+        <a href="#" class="pc-btn pc-btn-filled">14日間無料で試す</a>
+      </div>
+      <div class="price-card">
+        <div class="pc-label">Enterprise</div>
+        <div class="pc-price">要相談</div>
+        <div class="pc-period">カスタム見積もり</div>
+        <ul class="pc-features">
+          <li>Proの全機能</li>
+          <li>SSO / SAML対応</li>
+          <li>専任サポート担当</li>
+          <li>SLA保証</li>
+          <li>カスタム連携対応</li>
+        </ul>
+        <a href="#" class="pc-btn pc-btn-outline">お問い合わせ</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <h2>今すぐ無料で<br>始めましょう。</h2>
+  <a href="#" class="btn-white">14日間無料トライアル →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="fb-logo">SY<span>N</span>K</div>
+      <p>チームの仕事を一つに。タスク・コミュニケーション・ドキュメントを統合するAll-in-Oneワークスペース。</p>
+    </div>
+    <div class="footer-col">
+      <h4>製品</h4>
+      <ul>
+        <li><a href="#">機能一覧</a></li>
+        <li><a href="#">料金プラン</a></li>
+        <li><a href="#">導入事例</a></li>
+        <li><a href="#">ロードマップ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>リソース</h4>
+      <ul>
+        <li><a href="#">ドキュメント</a></li>
+        <li><a href="#">API Reference</a></li>
+        <li><a href="#">ブログ</a></li>
+        <li><a href="#">コミュニティ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>会社</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">採用情報</a></li>
+        <li><a href="#">プレス</a></li>
+        <li><a href="#">お問い合わせ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 SYNK Inc. All rights reserved.</p> <!-- 西暦を最新に更新 -->
+    <p>プライバシーポリシー　利用規約</p>
+  </div>
+</footer>
+
+</body>
+</html>
