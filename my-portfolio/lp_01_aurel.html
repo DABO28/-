@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AUREL — 黄金の肌科学</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a96e;
+  --gold-light: #e8d5a3;
+  --gold-dark: #8b6914;
+  --cream: #faf6f0;
+  --dark: #0e0c09;
+  --text: #2a2016;
+  --muted: #8a7a60;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--text);
+  font-family: 'Noto Serif JP', serif;
+  overflow-x: hidden;
+}
+
+/* GRAIN OVERLAY */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 24px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(250, 246, 240, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: 8px;
+  color: var(--dark);
+}
+
+.nav-links {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--gold); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-left {
+  background: var(--dark);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 140px 80px 80px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-left::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(201,169,110,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-left::after {
+  content: 'AUREL';
+  position: absolute;
+  bottom: -40px; left: -20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 180px;
+  font-weight: 300;
+  color: rgba(201,169,110,0.04);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: -5px;
+}
+
+.hero-label {
+  font-size: 10px;
+  letter-spacing: 6px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  animation: fadeUp 1s ease 0.2s both;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(38px, 5vw, 76px);
+  font-weight: 300;
+  color: var(--cream);
+  line-height: 1.2;
+  margin-bottom: 32px;
+  animation: fadeUp 1s ease 0.4s both;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+.hero-desc {
+  font-size: 14px;
+  color: rgba(250,246,240,0.45);
+  line-height: 2;
+  max-width: 360px;
+  margin-bottom: 56px;
+  font-weight: 200;
+  animation: fadeUp 1s ease 0.6s both;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  animation: fadeUp 1s ease 0.8s both;
+}
+
+.btn-primary {
+  padding: 16px 40px;
+  background: var(--gold);
+  color: var(--dark);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-family: 'Noto Serif JP', serif;
+  transition: all 0.3s;
+  text-align: center;
+}
+.btn-primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(201,169,110,0.3);
+  padding-bottom: 2px;
+  transition: border-color 0.3s;
+  text-align: center;
+}
+.btn-ghost:hover { border-color: var(--gold); }
+
+.hero-right {
+  background: linear-gradient(160deg, #e8dcc8 0%, #d4c4a0 100%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+}
+
+.hero-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.bottle-wrap {
+  position: relative;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.bottle {
+  width: 180px;
+  height: 320px;
+  background: linear-gradient(160deg, rgba(255,255,255,0.9) 0%, rgba(201,169,110,0.4) 50%, rgba(255,255,255,0.6) 100%);
+  border-radius: 60px 60px 40px 40px;
+  position: relative;
+  box-shadow:
+    inset -20px -20px 40px rgba(0,0,0,0.1),
+    inset 10px 10px 30px rgba(255,255,255,0.8),
+    30px 30px 60px rgba(0,0,0,0.15),
+    -10px -10px 40px rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+}
+
+.bottle::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  left: 50%; transform: translateX(-50%);
+  width: 50px; height: 40px;
+  background: linear-gradient(to bottom, rgba(201,169,110,0.8), rgba(201,169,110,0.5));
+  border-radius: 8px 8px 0 0;
+}
+
+.bottle-label {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 120px;
+}
+.bottle-label .bl-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: 4px;
+  color: var(--gold-dark);
+}
+.bottle-label .bl-sub {
+  font-size: 8px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.hero-badge {
+  position: absolute;
+  bottom: 40px; right: 40px;
+  width: 100px; height: 100px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: rotate 20s linear infinite;
+  background: rgba(232, 220, 200, 0.3);
+  backdrop-filter: blur(5px);
+}
+@keyframes rotate {
+  to { transform: rotate(360deg); }
+}
+.hero-badge span {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.hero-dots {
+  position: absolute;
+  top: 40px; left: 40px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+.hero-dots span {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.3;
+}
+
+/* DIVIDER */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 40px 60px;
+  background: var(--dark);
+  overflow: hidden;
+}
+.divider-line { flex: 1; height: 1px; background: rgba(201,169,110,0.2); }
+.divider-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+/* INGREDIENTS */
+.ingredients {
+  background: var(--dark);
+  padding: 100px 60px;
+}
+
+.ingredients-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 60px;
+}
+
+.section-label {
+  font-size: 10px;
+  letter-spacing: 6px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 300;
+  color: var(--cream);
+  line-height: 1.3;
+}
+.section-title em { font-style: italic; color: var(--gold-light); }
+
+.ingredients-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.ingredient-card {
+  background: rgba(201,169,110,0.04);
+  border: 1px solid rgba(201,169,110,0.1);
+  padding: 48px 36px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+.ingredient-card:hover {
+  background: rgba(201,169,110,0.08);
+  border-color: rgba(201,169,110,0.3);
+  transform: translateY(-4px);
+}
+
+.ingredient-card::before {
+  content: attr(data-num);
+  position: absolute;
+  top: 20px; right: 24px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 60px;
+  font-weight: 300;
+  color: rgba(201,169,110,0.08);
+}
+
+.ingredient-icon {
+  font-size: 32px;
+  margin-bottom: 24px;
+}
+.ingredient-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--gold-light);
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+}
+.ingredient-desc {
+  font-size: 13px;
+  color: rgba(250,246,240,0.45);
+  line-height: 1.9;
+  font-weight: 200;
+}
+
+/* RITUAL */
+.ritual {
+  background: var(--cream);
+  padding: 120px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ritual::before {
+  content: '01';
+  position: absolute;
+  top: -40px; right: -20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 300px;
+  font-weight: 300;
+  color: rgba(201,169,110,0.06);
+  pointer-events: none;
+}
+
+.ritual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.ritual-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ritual-step {
+  display: flex;
+  gap: 32px;
+  padding: 36px 0;
+  border-bottom: 1px solid rgba(201,169,110,0.15);
+  transition: padding-left 0.3s;
+}
+.ritual-step:hover { padding-left: 8px; }
+.ritual-step:first-child { border-top: 1px solid rgba(201,169,110,0.15); }
+
+.step-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px;
+  font-weight: 300;
+  color: var(--gold);
+  opacity: 0.4;
+  line-height: 1;
+  min-width: 40px;
+}
+
+.step-body h3 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.step-body p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.9;
+  font-weight: 200;
+}
+
+.ritual-visual {
+  position: relative;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ritual-circle {
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e8dcc8 0%, #c9a96e 50%, #faf6f0 100%);
+  position: relative;
+  box-shadow: 40px 40px 80px rgba(201,169,110,0.2), -20px -20px 60px rgba(255,255,255,0.8);
+}
+
+.ritual-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(201,169,110,0.2);
+}
+.ring-1 { width: 380px; height: 380px; animation: pulse 4s ease-in-out infinite; }
+.ring-2 { width: 440px; height: 440px; animation: pulse 4s ease-in-out infinite 1s; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.1; transform: scale(1.02); }
+}
+
+.ritual-text-center {
+  position: absolute;
+  text-align: center;
+}
+.ritual-text-center .rtc-label {
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--dark);
+  opacity: 0.4;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.ritual-text-center .rtc-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 56px;
+  font-weight: 300;
+  color: var(--dark);
+  line-height: 1;
+}
+.ritual-text-center .rtc-unit {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 3px;
+}
+
+/* TESTIMONIALS */
+.testimonials {
+  background: var(--dark);
+  padding: 100px 60px;
+}
+
+.testi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 60px;
+}
+
+.testi-card {
+  border: 1px solid rgba(201,169,110,0.12);
+  padding: 40px;
+  position: relative;
+  transition: border-color 0.3s;
+}
+.testi-card:hover { border-color: rgba(201,169,110,0.3); }
+
+.testi-card::before {
+  content: '"';
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 80px;
+  color: var(--gold);
+  opacity: 0.2;
+  position: absolute;
+  top: 10px; left: 24px;
+  line-height: 1;
+}
+
+.testi-stars {
+  color: var(--gold);
+  font-size: 12px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.testi-text {
+  font-size: 14px;
+  color: rgba(250,246,240,0.65);
+  line-height: 2;
+  font-weight: 200;
+  margin-bottom: 28px;
+}
+
+.testi-author {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.testi-age { color: var(--muted); font-size: 11px; margin-top: 2px; }
+
+/* CTA SECTION */
+.cta-section {
+  min-height: 60vh;
+  background: linear-gradient(160deg, #1a1408 0%, var(--dark) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(201,169,110,0.1) 0%, transparent 60%);
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cta-content { position: relative; z-index: 2; }
+
+.cta-content .section-label { margin-bottom: 24px; }
+
+.cta-content h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 300;
+  color: var(--cream);
+  line-height: 1.3;
+  margin-bottom: 24px;
+}
+.cta-content h2 em { font-style: italic; color: var(--gold-light); }
+
+.cta-content p {
+  font-size: 14px;
+  color: rgba(250,246,240,0.5);
+  margin-bottom: 48px;
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 2;
+  font-weight: 200;
+}
+
+.cta-price {
+  margin-bottom: 40px;
+}
+.price-label { font-size: 11px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+.price-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 56px;
+  font-weight: 300;
+  color: var(--cream);
+}
+.price-num span { font-size: 20px; color: var(--muted); }
+
+/* FOOTER */
+footer {
+  background: #080604;
+  padding: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(201,169,110,0.1);
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: 8px;
+  color: var(--gold);
+}
+
+.footer-copy { font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 2px; }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s cubic-bezier(0.215, 0.610, 0.355, 1), transform 1s cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* RESPONSIVE DESIGN (MOBILE & TABLET) */
+@media (max-width: 960px) {
+  nav { padding: 20px 30px; }
+  .nav-links { gap: 20px; }
+  
+  .hero { grid-template-columns: 1fr; }
+  .hero-left { padding: 140px 40px 60px 40px; }
+  .hero-right { min-height: 450px; }
+  
+  .ingredients-grid, .testi-grid { grid-template-columns: 1fr; gap: 30px; }
+  .ingredients, .ritual, .testimonials, .cta-section, .divider { padding: 80px 30px; }
+  
+  .ritual-grid { grid-template-columns: 1fr; gap: 60px; }
+  .ritual-visual { height: 400px; }
+  .ritual-circle { width: 260px; height: 260px; }
+  .ring-1 { width: 310px; height: 310px; }
+  .ring-2 { width: 360px; height: 360px; }
+  .ritual-text-center .rtc-num { font-size: 46px; }
+  
+  .divider-text { font-size: 9px; letter-spacing: 2px; white-space: normal; text-align: center; line-height: 1.8; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">AUREL</div>
+  <ul class="nav-links">
+    <li><a href="#ingredients">成分</a></li>
+    <li><a href="#ritual">使い方</a></li>
+    <li><a href="#testimonials">口コミ</a></li>
+    <li><a href="#cta">購入</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-label">Luxury Skincare — Since 2019</p>
+    <h1 class="hero-title">黄金の成分が<br><em>肌の記憶</em>を<br>書き換える</h1>
+    <p class="hero-desc">24Kゴールドと希少植物エキスが融合した、次世代スキンケア。一滴に込められた、究極の贅沢。</p>
+    <div class="hero-cta">
+      <a href="#cta" class="btn-primary">今すぐ試す</a>
+      <a href="#ingredients" class="btn-ghost">成分を見る</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-dots">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="hero-visual">
+      <div class="bottle-wrap">
+        <div class="bottle">
+          <div class="bottle-label">
+            <div class="bl-name">AUREL</div>
+            <div class="bl-sub">Gold Serum</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-badge">
+      <span>24K<br>GOLD<br>SERUM</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider">
+  <div class="divider-line"></div>
+  <div class="divider-text">Pure Ingredients — Science Meets Nature — Luxury Experience</div>
+  <div class="divider-line"></div>
+</div>
+
+<!-- INGREDIENTS -->
+<section class="ingredients" id="ingredients">
+  <div class="ingredients-header">
+    <div>
+      <p class="section-label">The Formula</p>
+      <h2 class="section-title">自然が生んだ<br><em>黄金の成分</em></h2>
+    </div>
+  </div>
+  <div class="ingredients-grid">
+    <div class="ingredient-card fade-in" data-num="01">
+      <div class="ingredient-icon">✨</div>
+      <div class="ingredient-name">24K Pure Gold</div>
+      <div class="ingredient-desc">純金ナノ粒子が真皮層まで浸透し、コラーゲン生成を約200%促進。古代エジプトから伝わる美の叡智を、現代科学で昇華させました。</div>
+    </div>
+    <div class="ingredient-card fade-in" data-num="02">
+      <div class="ingredient-icon">🌸</div>
+      <div class="ingredient-name">Rosa Centifolia</div>
+      <div class="ingredient-desc">南フランス・グラースで手摘みされる100枚花びらのバラ。肌の水分保持力を72時間持続し、透明感を高める希少エキス。</div>
+    </div>
+    <div class="ingredient-card fade-in" data-num="03">
+      <div class="ingredient-icon">🌿</div>
+      <div class="ingredient-name">Bakuchiol Complex</div>
+      <div class="ingredient-desc">インド産バクチオール。レチノールの自然代替として、刺激ゼロで細胞ターンオーバーを促進。敏感肌にも安心して使える植物性成分。</div>
+    </div>
+  </div>
+</section>
+
+<!-- RITUAL -->
+<section class="ritual" id="ritual">
+  <div class="ritual-grid">
+    <div>
+      <p class="section-label">Daily Ritual</p>
+      <h2 class="section-title" style="color:var(--text)">黄金の儀式<br><em>3ステップ</em></h2>
+      <div class="ritual-steps" style="margin-top:48px">
+        <div class="ritual-step">
+          <div class="step-num">01</div>
+          <div class="step-body">
+            <h3>洗顔後、化粧水の前に</h3>
+            <p>清潔な肌に2〜3滴を手のひらに取り、体温で温めます。有効成分が最も浸透しやすい状態を作る、最初の儀式。</p>
+          </div>
+        </div>
+        <div class="ritual-step">
+          <div class="step-num">02</div>
+          <div class="step-body">
+            <h3>内から外へ、優しく押し込む</h3>
+            <p>指の腹で顔の中心から外側へ、リンパの流れに沿って優しく塗布。毎朝60秒の、自分への投資。</p>
+          </div>
+        </div>
+        <div class="ritual-step">
+          <div class="step-num">03</div>
+          <div class="step-body">
+            <h3>30秒、そのまま待つ</h3>
+            <p>塗布後30秒間、軽くプレスして成分を肌に定着させます。この30秒が、翌朝の輝きを決める。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ritual-visual">
+      <div class="ritual-ring ring-2"></div>
+      <div class="ritual-ring ring-1"></div>
+      <div class="ritual-circle"></div>
+      <div class="ritual-text-center">
+        <div class="rtc-label">実感まで</div>
+        <div class="rtc-num">28</div>
+        <div class="rtc-unit">DAYS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <p class="section-label">Real Reviews</p>
+  <h2 class="section-title">愛用者の<em>声</em></h2>
+  <div class="testi-grid">
+    <div class="testi-card fade-in">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">「使い始めて2週間で、同僚に『最近何かした？』と聞かれました。肌のトーンが明らかに変わりました。」</div>
+      <div class="testi-author">M.Tanaka</div>
+      <div class="testi-age">38歳 / マーケター</div>
+    </div>
+    <div class="testi-card fade-in">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">「敏感肌でいつも新しいものを試すのが怖いのですが、これは全く刺激がなく、でも確かな変化を感じられます。」</div>
+      <div class="testi-author">R.Yoshida</div>
+      <div class="testi-age">44歳 / 医師</div>
+    </div>
+    <div class="testi-card fade-in">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">「これまで高級コスメを数十種類試しましたが、AURELは別格です。肌が内側から変わっていく感覚があります。」</div>
+      <div class="testi-author">A.Suzuki</div>
+      <div class="testi-age">51歳 / 経営者</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="cta-content">
+    <p class="section-label">Limited Offer</p>
+    <h2>今だけの<br><em>特別な価格</em>で</h2>
+    <div class="cta-price">
+      <div class="price-label">初回限定価格</div>
+      <div class="price-num"><span>¥</span>12,800<span>（税込）</span></div>
+    </div>
+    <p>通常価格¥19,800から39%OFF。<br>送料無料・30日間返金保証付き。</p>
+    <a href="#" class="btn-primary" style="font-size:13px; padding:20px 60px;">今すぐ購入する</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">AUREL</div>
+  <div class="footer-copy">© 2024 AUREL Inc. All rights reserved.</div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { 
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+});
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
